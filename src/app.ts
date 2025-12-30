@@ -11,6 +11,7 @@ import {
 } from 'fastify-type-provider-zod';
 import { redis } from '@/lib/redis';
 import { env } from './env';
+import { errorHandler } from './lib/error-handler';
 import { loggerConfig } from './lib/logger';
 import { usersRoutes } from './modules/users/users.routes';
 
@@ -20,6 +21,8 @@ export const app = fastify({
 
 app.setSerializerCompiler(serializerCompiler);
 app.setValidatorCompiler(validatorCompiler);
+
+app.setErrorHandler(errorHandler);
 
 app.register(fastifyCors, {
   origin: true,
