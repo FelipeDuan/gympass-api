@@ -1,4 +1,5 @@
 import fastifyCors from '@fastify/cors';
+import fastifyRateLimit from '@fastify/rate-limit';
 import { fastifySwagger } from '@fastify/swagger';
 import scalarAPIReference from '@scalar/fastify-api-reference';
 import fastify from 'fastify';
@@ -10,6 +11,7 @@ import {
 } from 'fastify-type-provider-zod';
 import { env } from './env';
 import { loggerConfig } from './lib/logger';
+import { usersRoutes } from './modules/users/users.routes';
 
 export const app = fastify({
   logger: loggerConfig,
@@ -23,6 +25,8 @@ app.register(fastifyCors, {
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   credentials: true,
 });
+
+app.register(fastifyRateLimit);
 
 if (env.NODE_ENV === 'dev') {
   app.register(fastifySwagger, {
@@ -40,3 +44,5 @@ if (env.NODE_ENV === 'dev') {
     routePrefix: '/docs',
   });
 }
+
+app.register(usersRoutes, { prefix: '/users' });
