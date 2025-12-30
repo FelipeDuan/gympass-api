@@ -1,6 +1,6 @@
 import { hash } from 'argon2';
+import { cache } from '@/lib/cache';
 import { prisma } from '@/lib/prisma';
-import { redis } from '@/lib/redis';
 import type { CreateUserSchema } from './users.schemas';
 import { serializeUsersPage } from './users.serializers';
 
@@ -17,17 +17,7 @@ export const usersService = {
       select: { id: true, name: true },
     });
 
-    const stream = redis.scanStream({ match: 'users:list:*' });
-
-    const keys: string[] = [];
-
-    for await (const result of stream) {
-      keys.push(...result);
-    }
-
-    if (keys.length) {
-      await redis.del(...keys);
-    }
+    await cache.invalidateByPattern('users:list:*');
 
     return user;
   },
@@ -35,14 +25,10 @@ export const usersService = {
   async findyAll(page: number, limit: number) {
     const cacheKey = `users:list:page:${page}:limit:${limit}`;
 
-    const cached = await redis.get(cacheKey);
+    const cached =
+      await cache.get<ReturnType<typeof serializeUsersPage>>(cacheKey);
 
-    if (cached) {
-      console.log('⚡ veio do cache');
-      return JSON.parse(cached);
-    }
-
-    console.log('🐘 veio do banco');
+    if (cached) return cached;
 
     const [data, total] = await Promise.all([
       prisma.user.findMany({
@@ -56,7 +42,7 @@ export const usersService = {
 
     const result = serializeUsersPage(data, page, total);
 
-    await redis.set(cacheKey, JSON.stringify(result), 'EX', 60);
+    await cache.set(cacheKey, result, 60 * 5);
 
     return result;
   },

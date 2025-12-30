@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { paginableSchema } from '@/lib/paginations';
 
 export const userPublicSchema = z.object({
   id: z.uuid(),
@@ -15,11 +16,7 @@ export const listUsersSchema = {
     limit: z.coerce.number().default(10),
   }),
   response: {
-    200: z.object({
-      data: z.array(userPublicSchema),
-      page: z.number(),
-      total: z.number(),
-    }),
+    200: paginableSchema(userPublicSchema),
   },
 };
 
