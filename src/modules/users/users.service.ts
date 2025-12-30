@@ -1,16 +1,13 @@
 import { hash } from 'argon2';
-import { ConflictError } from '@/core/errors/app-error';
+import { ConflictError } from '@/http/errors/app-error';
 import { cache } from '@/infra/cache/cache-service';
-import { prisma } from '@/infra/db/prisma';
-import { userSelect } from './users.dto';
+import { usersRepository } from './users.repository';
 import type { CreateUserSchema } from './users.schemas';
 import { serializeUsersPage } from './users.serializers';
 
 export const usersService = {
   async create({ name, email, password }: CreateUserSchema) {
-    const exists = await prisma.user.findUnique({
-      where: { email },
-    });
+    const exists = await usersRepository.findByEmail(email);
 
     if (exists) {
       throw new ConflictError('User with same email already exists.');
@@ -18,9 +15,10 @@ export const usersService = {
 
     const password_hash = await hash(password);
 
-    const user = await prisma.user.create({
-      data: { name, email, password_hash },
-      select: { id: true, name: true },
+    const user = await usersRepository.create({
+      name,
+      email,
+      password_hash,
     });
 
     await cache.invalidateByPattern('users:list:*');
@@ -33,21 +31,15 @@ export const usersService = {
 
     const cached =
       await cache.get<ReturnType<typeof serializeUsersPage>>(cacheKey);
-
     if (cached) return cached;
 
+    const skip = (page - 1) * limit;
     const [data, total] = await Promise.all([
-      prisma.user.findMany({
-        skip: (page - 1) * limit,
-        take: limit,
-        select: userSelect,
-        orderBy: { created_at: 'desc' },
-      }),
-      prisma.user.count(),
+      usersRepository.findAll(skip, limit),
+      usersRepository.count(),
     ]);
 
     const result = serializeUsersPage(data, page, total);
-
     await cache.set(cacheKey, result, 60 * 5);
 
     return result;
