@@ -1,4 +1,4 @@
-import { env } from '@/env';
+import { env } from '@/config/env';
 
 const loggerConfig =
   env.NODE_ENV === 'test'

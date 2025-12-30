@@ -1,7 +1,7 @@
 import { hash } from 'argon2';
-import { cache } from '@/lib/cache';
-import { ConflictError } from '@/lib/errors/app-error';
-import { prisma } from '@/lib/prisma';
+import { ConflictError } from '@/core/errors/app-error';
+import { cache } from '@/infra/cache/cache-service';
+import { prisma } from '@/infra/db/prisma';
 import { userSelect } from './users.dto';
 import type { CreateUserSchema } from './users.schemas';
 import { serializeUsersPage } from './users.serializers';

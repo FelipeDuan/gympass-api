@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { paginableSchema } from '@/lib/paginations';
+import { paginableSchema } from '@/core/utils/paginations';
 
 export const userPublicSchema = z.object({
   id: z.uuid(),

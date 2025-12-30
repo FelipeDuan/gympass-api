@@ -9,11 +9,11 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
-import { redis } from '@/lib/redis';
+import { redis } from '@/infra/cache/redis';
+import { errorHandler } from '../http/error-handler';
+import { loggerConfig } from '../infra/logger/logger';
+import { usersRoutes } from '../modules/users/users.routes';
 import { env } from './env';
-import { errorHandler } from './lib/error-handler';
-import { loggerConfig } from './lib/logger';
-import { usersRoutes } from './modules/users/users.routes';
 
 export const app = fastify({
   logger: loggerConfig,
