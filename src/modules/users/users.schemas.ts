@@ -24,9 +24,13 @@ export const createUserSchema = {
   tags: ['Users'],
   summary: 'Register a new user',
   body: z.object({
-    name: z.string().min(3),
-    email: z.email(),
-    password: z.string().min(6),
+    name: z
+      .string({ error: 'Nome inválido.' })
+      .min(3, { error: 'Precisa de no mínimo 3 caracteres.' }),
+    email: z.email({ error: 'Email inválido' }),
+    password: z
+      .string({ error: 'Senha inválida.' })
+      .min(6, { error: 'Precisa de no mínimo 6 caracteres.' }),
   }),
   response: {
     201: z.object({
