@@ -9,6 +9,7 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
+import { redis } from '@/lib/redis';
 import { env } from './env';
 import { loggerConfig } from './lib/logger';
 import { usersRoutes } from './modules/users/users.routes';
@@ -26,7 +27,11 @@ app.register(fastifyCors, {
   credentials: true,
 });
 
-app.register(fastifyRateLimit);
+app.register(fastifyRateLimit, {
+  redis,
+  max: 100,
+  timeWindow: '1 minute',
+});
 
 if (env.NODE_ENV === 'dev') {
   app.register(fastifySwagger, {

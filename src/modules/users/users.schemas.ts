@@ -4,7 +4,7 @@ export const userPublicSchema = z.object({
   id: z.uuid(),
   name: z.string(),
   email: z.email(),
-  created_at: z.date(),
+  created_at: z.iso.datetime(),
 });
 
 export const listUsersSchema = {
