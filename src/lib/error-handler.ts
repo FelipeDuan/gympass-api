@@ -1,8 +1,15 @@
-// src/lib/error-handler.ts
 import type { FastifyInstance } from 'fastify';
 import { ZodError } from 'zod';
 import { env } from '@/env';
 import { AppError } from '@/lib/errors/app-error';
+
+type FastifyValidationError = {
+  instancePath?: string;
+  message?: string;
+  params?: {
+    missingProperty?: string;
+  };
+};
 
 export const errorHandler: FastifyInstance['errorHandler'] = (
   error,
@@ -10,9 +17,7 @@ export const errorHandler: FastifyInstance['errorHandler'] = (
   reply,
 ) => {
   const timestamp = new Date().toISOString();
-  const statusCode = error.statusCode || 500;
 
-  // 1. Erros de Validação (Zod)
   if (error instanceof ZodError) {
     return reply.status(400).send({
       timestamp,
@@ -27,23 +32,23 @@ export const errorHandler: FastifyInstance['errorHandler'] = (
   }
 
   if (error.validation) {
+    const fields = (error.validation as FastifyValidationError[]).map((v) => ({
+      field:
+        v.instancePath?.replace('/', '') ||
+        v.params?.missingProperty ||
+        'field',
+      message: v.message ?? 'Invalid value',
+    }));
+
     return reply.status(400).send({
       timestamp,
       statusCode: 400,
       code: 'ERR_VALIDATION',
       message: 'Validation failed.',
-      fields: error.validation.map((v: any) => ({
-        // Mapeia o caminho do erro que o Fastify/AJV/Zod entregam
-        field:
-          v.instancePath?.replace('/', '') ||
-          v.params?.missingProperty ||
-          'field',
-        message: v.message,
-      })),
+      fields,
     });
   }
 
-  // 2. Erros Customizados da Aplicação (Exceptions)
   if (error instanceof AppError) {
     return reply.status(error.statusCode).send({
       timestamp,
@@ -55,9 +60,9 @@ export const errorHandler: FastifyInstance['errorHandler'] = (
 
   request.log.error(error);
 
-  return reply.status(statusCode).send({
+  return reply.status(500).send({
     timestamp,
-    statusCode,
+    statusCode: 500,
     code: 'ERR_INTERNAL_SERVER_ERROR',
     message:
       env.NODE_ENV === 'dev' ? error.message : 'An unexpected error occurred.',

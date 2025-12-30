@@ -9,6 +9,8 @@ export function serializeUser(user: UserDTO) {
   };
 }
 
+export type UserPublic = ReturnType<typeof serializeUser>;
+
 export function serializeUsersPage(
   users: UserDTO[],
   page: number,

@@ -22,7 +22,7 @@ export const usersRoutes: FastifyPluginAsyncZod = async (app) => {
     },
     async (request, reply) => {
       const { page, limit } = request.query;
-      const result = await usersService.findyAll(page, limit);
+      const result = await usersService.findAll(page, limit);
 
       return reply.send(result);
     },
