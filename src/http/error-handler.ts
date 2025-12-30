@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { ZodError } from 'zod';
 import { env } from '@/config/env';
-import { AppError } from '@/core/errors/app-error';
+import { AppError } from '@/http/errors/app-error';
 
 type FastifyValidationError = {
   instancePath?: string;
