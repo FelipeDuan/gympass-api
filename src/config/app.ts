@@ -1,4 +1,5 @@
 import fastifyCors from '@fastify/cors';
+import fastifyJwt from '@fastify/jwt';
 import fastifyRateLimit from '@fastify/rate-limit';
 import { fastifySwagger } from '@fastify/swagger';
 import scalarAPIReference from '@scalar/fastify-api-reference';
@@ -14,6 +15,7 @@ import { errorHandler } from '../http/error-handler';
 import { loggerConfig } from '../infra/logger/logger';
 import { usersRoutes } from '../modules/users/users.routes';
 import { env } from './env';
+import { jwtConfig } from './jwt';
 
 export const app = fastify({
   logger: loggerConfig,
@@ -52,5 +54,7 @@ if (env.NODE_ENV === 'dev') {
     routePrefix: '/docs',
   });
 }
+
+app.register(fastifyJwt, jwtConfig);
 
 app.register(usersRoutes, { prefix: '/users' });

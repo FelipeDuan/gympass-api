@@ -6,7 +6,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    include: ['src/**/*.spec.ts'],
+    include: ['src/**/*.{spec,test}.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],
@@ -14,7 +14,7 @@ export default defineConfig({
         'node_modules/',
         'build/',
         'generated/',
-        '**/*.spec.ts',
+        '**/*.{spec,test}.ts',
         '**/*.config.ts',
         '**/test/**',
         'src/server.ts',
