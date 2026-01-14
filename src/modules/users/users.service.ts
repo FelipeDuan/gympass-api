@@ -1,12 +1,13 @@
 import { hash } from 'argon2';
-import { ConflictError } from '@/http/errors/app-error';
+import { ConflictError, ResourceNotFoundError } from '@/http/errors/app-error';
 import { cache } from '@/infra/cache/cache-service';
+import type { UserDTO } from './users.dto';
 import { usersRepository } from './users.repository';
 import type { CreateUserSchema } from './users.schemas';
-import { serializeUsersPage } from './users.serializers';
+import { serializeUser, serializeUsersPage } from './users.serializers';
 
 export const usersService = {
-  async create({ name, email, password }: CreateUserSchema) {
+  async create({ name, email, password }: CreateUserSchema): Promise<UserDTO> {
     const exists = await usersRepository.findByEmail(email);
 
     if (exists) {
@@ -43,5 +44,15 @@ export const usersService = {
     await cache.set(cacheKey, result, 60 * 5);
 
     return result;
+  },
+
+  async findById(userId: string) {
+    const user = await usersRepository.findById(userId);
+
+    if (!user) {
+      throw new ResourceNotFoundError('User not found.');
+    }
+
+    return serializeUser(user);
   },
 };
