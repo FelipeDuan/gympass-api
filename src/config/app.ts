@@ -5,6 +5,7 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
+import { createServices } from '../core/di/service-factory';
 import { errorHandler } from '../http/error-handler';
 import { loggerConfig } from '../infra/logger/logger';
 import { jwtConfig } from './jwt';
@@ -27,15 +28,17 @@ app.setValidatorCompiler(validatorCompiler);
 app.setErrorHandler(errorHandler);
 
 export async function setupPlugins(): Promise<void> {
-  // segurança (ordem importante)
+  await app.register(fastifyJwt, jwtConfig);
+
+  const services = createServices(app);
+  app.decorate('services', services);
+
   await registerHelmet(app);
   await registerCors(app);
   await registerGlobalRateLimit(app);
   await registerAuthRateLimit(app);
 
   await registerSwagger(app);
-
-  await app.register(fastifyJwt, jwtConfig);
 
   await registerRoutes(app);
 }
