@@ -21,3 +21,15 @@ export class ResourceNotFoundError extends AppError {
     super(message, 404, 'ERR_NOT_FOUND');
   }
 }
+
+export class UnauthorizedError extends AppError {
+  constructor(message: string) {
+    super(message, 401, 'ERR_UNAUTHORIZED');
+  }
+}
+
+export class ForbiddenError extends AppError {
+  constructor(message: string) {
+    super(message, 403, 'ERR_FORBIDDEN');
+  }
+}
