@@ -1,6 +1,7 @@
 import { Role } from 'generated/prisma/enums';
 import { z } from 'zod';
-import { paginableSchema } from '@/core/utils/paginations';
+import { PAGINATION } from '@/core/shared/constants';
+import { paginableSchema } from '@/core/shared/utils/paginations';
 
 export const userPublicSchema = z.object({
   id: z.uuid(),
@@ -15,7 +16,7 @@ export const listUsersSchema = {
   summary: 'Listar usuários com paginação',
   querystring: z.object({
     page: z.coerce.number().default(1),
-    limit: z.coerce.number().default(10),
+    limit: z.coerce.number().default(PAGINATION.DEFAULT_LIMIT),
   }),
   response: {
     200: paginableSchema(userPublicSchema),

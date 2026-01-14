@@ -5,9 +5,10 @@ import {
   getAuthenticatedUser,
 } from '@/http/middlewares';
 import { getProfileSchema, listUsersSchema } from './users.schemas';
-import { usersService } from './users.service';
 
 export const usersRoutes: FastifyPluginAsyncZod = async (app) => {
+  const { usersService } = app.services;
+
   app.get(
     '/',
     {

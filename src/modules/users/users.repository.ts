@@ -1,8 +1,9 @@
 import type { Prisma } from 'generated/prisma/client';
+import type { IUsersRepository } from '@/core/interfaces/users.repository.interface';
 import { prisma } from '@/infra/db/prisma';
 import { type UserDTO, userSelect } from './users.dto';
 
-export const usersRepository = {
+export const usersRepository: IUsersRepository = {
   async findByEmail(email: string): Promise<UserDTO | null> {
     return await prisma.user.findUnique({
       where: { email },
