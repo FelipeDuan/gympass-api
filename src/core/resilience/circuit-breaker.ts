@@ -30,8 +30,8 @@ export class CircuitBreaker {
 
   constructor(
     private readonly logger: ILogger,
-    private threshold = CIRCUIT_BREAKER.THRESHOLD,
-    private recoveryTimeout = CIRCUIT_BREAKER.RECOVERY_TIMEOUT_MS,
+    private threshold: number = CIRCUIT_BREAKER.THRESHOLD,
+    private recoveryTimeout: number = CIRCUIT_BREAKER.RECOVERY_TIMEOUT_MS,
   ) {}
 
   async execute<T>(fn: () => Promise<T>): Promise<T | null> {
