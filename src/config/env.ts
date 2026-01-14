@@ -9,6 +9,7 @@ const envSchema = z.object({
   REDIS_PORT: z.coerce.number().default(6379),
   JWT_SECRET: z.string().min(32, 'JWT_SECRET deve ter no mínimo 32 caracteres'),
   JWT_EXPIRES_IN: z.string().default('7d'),
+  CORS_ORIGINS: z.string().optional().default('*'),
 });
 
 const _env = envSchema.safeParse(process.env);

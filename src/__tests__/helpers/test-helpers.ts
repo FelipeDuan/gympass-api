@@ -1,7 +1,8 @@
 import type { FastifyInstance } from 'fastify';
-import { app } from '@/config/app';
+import { app, setupPlugins } from '@/config/app';
 
 export async function buildTestApp(): Promise<FastifyInstance> {
+  await setupPlugins();
   return app;
 }
 
