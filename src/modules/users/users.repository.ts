@@ -10,10 +10,17 @@ export const usersRepository = {
     });
   },
 
+  async findById(id: string): Promise<UserDTO | null> {
+    return await prisma.user.findUnique({
+      where: { id },
+      select: userSelect,
+    });
+  },
+
   async create(data: Prisma.UserCreateInput) {
     return await prisma.user.create({
       data,
-      select: { id: true, name: true },
+      select: userSelect,
     });
   },
 

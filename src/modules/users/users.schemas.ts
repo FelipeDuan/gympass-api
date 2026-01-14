@@ -1,3 +1,4 @@
+import { Role } from 'generated/prisma/enums';
 import { z } from 'zod';
 import { paginableSchema } from '@/core/utils/paginations';
 
@@ -5,6 +6,7 @@ export const userPublicSchema = z.object({
   id: z.uuid(),
   name: z.string(),
   email: z.email(),
+  role: z.enum(Role),
   created_at: z.iso.datetime(),
 });
 
@@ -39,6 +41,14 @@ export const createUserSchema = {
         name: z.string(),
       }),
     }),
+  },
+};
+
+export const getProfileSchema = {
+  tags: ['Users'],
+  summary: 'Obter perfil do usuário logado',
+  response: {
+    200: userPublicSchema,
   },
 };
 
