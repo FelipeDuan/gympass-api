@@ -1,0 +1,1013 @@
+# 🏛️ RULES GLOBAIS DO PROJETO - API Solid
+
+**Versão:** 1.0.0  
+**Objetivo:** Governar padrões arquiteturais e garantir consistência, coesão e longevidade técnica  
+**Stack:** Node.js + TypeScript + Fastify + PostgreSQL + Redis
+
+---
+
+## 📋 CONTEXTO E VISÃO DO PROJETO
+
+### Visão Estratégica
+
+Este repositório representa uma **base arquitetural em evolução** que visa se tornar um **boilerplate backend enterprise de nível sênior**, reutilizável em múltiplos projetos de diferentes tamanhos e complexidades.
+
+**Não estamos construindo apenas uma aplicação**, estamos estabelecendo **fundamentos técnicos que duram anos**, são mantidos por múltiplos times, escalam sem se tornarem caóticos e permitem que desenvolvedores **foquem quase exclusivamente nas regras de negócio**.
+
+### O Que Estamos Construindo
+
+**Objetivo Principal:**
+Criar uma **base técnica sólida, madura e robusta** que sirva como ponto de partida para qualquer projeto backend Node.js, garantindo:
+
+1. **Qualidade Técnica Superior**
+   - Código limpo, testável e manutenível
+   - Arquitetura bem definida e consistente
+   - Padrões claros e previsíveis
+   - Separação absoluta de responsabilidades
+
+2. **Developer Experience Otimizada**
+   - Desenvolvimento de novos módulos seja simples e rápido
+   - Padrões claros reduzam esforço cognitivo
+   - Convenções previsíveis facilitem onboarding
+   - Foco no desenvolvimento de regras de negócio, não em configuração
+
+3. **Longevidade e Escalabilidade**
+   - Código que resiste ao tempo
+   - Arquitetura que escala sem degradação
+   - Refatorações seguras e graduais
+   - Base para evolução contínua
+
+4. **Reutilização Enterprise**
+   - Boilerplate reutilizável em múltiplos projetos
+   - Padrões estabelecidos e documentados
+   - Estrutura que facilita manutenção por diferentes times
+   - Base técnica confiável para produtos críticos
+
+### Princípios Fundamentais Que Pregamos
+
+**1. Pragmatismo sobre Dogmas**
+- Aplicamos princípios SOLID e Clean Code rigorosamente
+- Evitamos overengineering e complexidade desnecessária
+- Escolhemos a melhor abordagem para cada situação
+- Priorizamos simplicidade quando possível
+
+**2. Separação Absoluta de Responsabilidades**
+- Cada camada tem responsabilidade única e bem definida
+- Rotas não contêm lógica de negócio
+- Services não conhecem detalhes de HTTP ou infraestrutura
+- Repositories apenas acessam dados
+
+**3. Testabilidade como Prioridade**
+- Toda funcionalidade deve ser testável
+- Código deve ser fácil de testar isoladamente
+- Testes são parte do desenvolvimento, não opcional
+- Cobertura mínima de 80% é obrigatória
+
+**4. Type Safety como Segurança**
+- TypeScript strict mode sempre habilitado
+- Tipos como ferramenta de segurança e documentação
+- Falhas devem ocorrer preferencialmente em compile-time
+- Tipagem explícita em boundaries públicos
+
+**5. Developer Experience como Ativo**
+- Convenções claras e previsíveis
+- Padrões que reduzem esforço cognitivo
+- Documentação que facilita onboarding
+- Estrutura que permite foco no que importa: regras de negócio
+
+**6. Evolução Gradual e Segura**
+- Refatorações incrementais e testáveis
+- Compatibilidade durante transições
+- Migração gradual quando necessário
+- Documentação de mudanças arquiteturais
+
+### O Que Pretendemos Atingir
+
+**Curto Prazo (3-6 meses):**
+- ✅ Base arquitetural sólida e consistente
+- ✅ Testes abrangentes (80%+ coverage)
+- ✅ Dependency Injection implementado
+- ✅ Desacoplamento completo de infraestrutura
+- ✅ Documentação completa e atualizada
+- ✅ Performance otimizada
+- ✅ Segurança enterprise-grade
+
+**Médio Prazo (6-12 meses):**
+- ✅ Boilerplate completamente reutilizável
+- ✅ Generator de módulos funcional
+- ✅ Padrões estabelecidos e documentados
+- ✅ Exemplos e templates completos
+- ✅ CI/CD completo e otimizado
+- ✅ Observabilidade completa
+- ✅ Métricas e monitoramento
+
+**Longo Prazo (12+ meses):**
+- ✅ Boilerplate enterprise reconhecido
+- ✅ Base para múltiplos projetos em produção
+- ✅ Padrões validados em escala
+- ✅ Evolução contínua baseada em feedback
+- ✅ Comunidade e contribuições (se aplicável)
+
+### Contexto Técnico
+
+**Stack Principal:**
+- **Runtime:** Node.js 22.x (LTS)
+- **Linguagem:** TypeScript 5.9+ (strict mode)
+- **Framework:** Fastify 5.x (performance-first)
+- **ORM:** Prisma 7.x (type-safe)
+- **Banco:** PostgreSQL 17
+- **Cache:** Redis 7
+- **Validação:** Zod 4.x
+- **Testes:** Vitest 4.x
+- **Linting:** Biome 2.x
+
+**Filosofia Técnica:**
+- **Fastify-first:** Respeitamos o modelo de plugins, hooks e performance do Fastify
+- **TypeScript como pilar:** Tipagem forte como ferramenta de segurança e documentação
+- **Prisma como ORM:** Type-safe queries e migrations automáticas
+- **Zod para validação:** Runtime validation type-safe integrada ao Fastify
+- **Testes desde o início:** TDD quando possível, testes obrigatórios sempre
+
+### Contexto de Negócio
+
+**Aplicação Atual:**
+Sistema estilo GymPass com funcionalidades de:
+- Autenticação e autorização (JWT + RBAC)
+- Gerenciamento de usuários
+- Check-ins em academias
+- Busca de academias por proximidade
+- Validação de check-ins por administradores
+
+**Mas o Objetivo Vai Além:**
+Este repositório não é apenas sobre a aplicação GymPass. É sobre criar uma **base técnica reutilizável** que pode ser usada para:
+- Qualquer API REST backend
+- Sistemas de diferentes domínios
+- Projetos de diferentes tamanhos
+- Times diferentes com necessidades diferentes
+
+**Por Isso:**
+- Focamos em padrões, não em features específicas
+- Priorizamos arquitetura sobre funcionalidades
+- Documentamos decisões e padrões
+- Criamos abstrações que facilitam extensão
+
+### O Que Isso Significa na Prática
+
+**Para Desenvolvedores:**
+- Ao criar um novo módulo, você segue padrões claros e previsíveis
+- Não precisa se preocupar com configuração de infraestrutura
+- Foca em implementar regras de negócio
+- Tem testes como segurança para refatorações
+
+**Para o Projeto:**
+- Código consistente e previsível
+- Fácil de manter e evoluir
+- Testável e confiável
+- Documentado e compreensível
+
+**Para o Futuro:**
+- Base sólida para múltiplos projetos
+- Padrões estabelecidos e validados
+- Evolução contínua e segura
+- Longevidade técnica garantida
+
+### Compromissos Não Negociáveis
+
+**Nunca Comprometemos:**
+- ❌ Qualidade de código em favor de velocidade
+- ❌ Testabilidade em favor de conveniência
+- ❌ Separação de responsabilidades em favor de simplicidade aparente
+- ❌ Type safety em favor de agilidade
+- ❌ Documentação em favor de código rápido
+
+**Sempre Priorizamos:**
+- ✅ Código limpo e manutenível
+- ✅ Testes abrangentes
+- ✅ Arquitetura bem definida
+- ✅ Type safety
+- ✅ Documentação clara
+
+---
+
+## 1. FILOSOFIA E PRINCÍPIOS FUNDAMENTAIS
+
+### 1.1 Princípios Não Negociáveis
+
+- **OBRIGATÓRIO:** Seguir princípios SOLID rigorosamente
+- **OBRIGATÓRIO:** Manter separação absoluta de responsabilidades entre camadas
+- **OBRIGATÓRIO:** Priorizar pragmatismo sobre dogmas - evitar overengineering
+- **OBRIGATÓRIO:** TypeScript strict mode sempre habilitado
+- **OBRIGATÓRIO:** Toda funcionalidade DEVE ter testes correspondentes
+- **PROIBIDO:** Lógica de negócio em rotas ou repositories
+- **PROIBIDO:** Acoplamento direto com implementações concretas de infraestrutura
+- **PROIBIDO:** Uso de `any` em TypeScript (exceto em casos extremamente raros e documentados)
+
+### 1.2 Objetivos Técnicos de Longo Prazo
+
+- Transformar este repositório em boilerplate enterprise reutilizável
+- Maximizar Developer Experience (DX) - foco em desenvolvimento de módulos de negócio
+- Garantir testabilidade completa de todas as camadas
+- Manter código limpo, previsível e fácil de manter
+- Permitir refatorações seguras e graduais
+
+---
+
+## 2. ESTRUTURA DE PASTAS
+
+### 2.1 Estrutura Obrigatória
+
+```
+src/
+├── config/              # Configurações da aplicação
+│   ├── plugins/        # Plugins do Fastify organizados
+│   ├── app.ts          # Instância do Fastify
+│   ├── env.ts          # Validação de variáveis de ambiente
+│   └── *.ts            # Outras configurações
+├── core/               # Lógica core compartilhada
+│   ├── domain/        # Entidades e Value Objects (quando necessário)
+│   ├── interfaces/    # Contratos e interfaces compartilhadas
+│   ├── shared/        # Utilitários compartilhados
+│   │   ├── types/     # Tipos TypeScript compartilhados
+│   │   └── utils/     # Funções utilitárias
+│   └── resilience/    # Circuit breaker, retry, etc.
+├── http/               # Camada HTTP
+│   ├── errors/        # Classes de erro customizadas
+│   ├── middlewares/   # Middlewares HTTP
+│   └── error-handler.ts
+├── infra/              # Infraestrutura (implementações concretas)
+│   ├── cache/         # Implementação de cache (Redis)
+│   ├── db/            # Implementação de banco (Prisma)
+│   ├── logger/        # Implementação de logger
+│   └── monitoring/    # Métricas e monitoramento
+├── modules/            # Módulos de domínio (feature-based)
+│   └── {module-name}/
+│       ├── {module}.routes.ts      # Rotas HTTP
+│       ├── {module}.service.ts     # Lógica de negócio
+│       ├── {module}.repository.ts  # Acesso a dados
+│       ├── {module}.schemas.ts     # Schemas Zod
+│       ├── {module}.dto.ts         # DTOs e selects
+│       ├── {module}.serializers.ts # Serialização de respostas
+│       └── __tests__/              # Testes do módulo
+├── types/              # Tipos TypeScript globais (declarações de módulo)
+└── server.ts           # Entry point da aplicação
+```
+
+### 2.2 Regras de Estrutura
+
+- **OBRIGATÓRIO:** Cada módulo em `src/modules/` DEVE seguir a estrutura padrão acima
+- **OBRIGATÓRIO:** Testes DEVE estar em `__tests__/` dentro do módulo correspondente
+- **PROIBIDO:** Criar pastas fora da estrutura definida sem justificativa arquitetural
+- **PROIBIDO:** Colocar código de negócio fora de `src/modules/`
+- **PROIBIDO:** Colocar implementações de infraestrutura fora de `src/infra/`
+- **PROIBIDO:** Criar pasta `src/lib/` sem propósito claro definido
+
+### 2.3 Dependências Entre Camadas
+
+**Regra de Dependência (DEVE ser respeitada):**
+
+```
+modules/ → pode depender de → core/, http/errors, types/
+modules/ → NÃO PODE depender de → infra/, config/
+
+infra/ → pode depender de → core/interfaces, config/, types/
+infra/ → NÃO PODE depender de → modules/
+
+http/ → pode depender de → modules/, core/, types/
+http/ → NÃO PODE depender de → infra/ diretamente
+
+core/ → pode depender de → types/
+core/ → NÃO PODE depender de → modules/, infra/, http/
+```
+
+- **OBRIGATÓRIO:** Respeitar a regra de dependências acima
+- **PROIBIDO:** Dependências circulares entre módulos
+- **PROIBIDO:** Módulos dependerem de outros módulos diretamente (usar interfaces em `core/interfaces/`)
+
+---
+
+## 3. ROTAS E CONTROLLERS
+
+### 3.1 Onde Rotas Devem Existir
+
+- **OBRIGATÓRIO:** Rotas DEVE estar em `src/modules/{module}/{module}.routes.ts`
+- **OBRIGATÓRIO:** Cada módulo DEVE ter um arquivo `{module}.routes.ts`
+- **PROIBIDO:** Criar rotas fora de módulos
+- **PROIBIDO:** Colocar múltiplos módulos em um único arquivo de rotas
+
+### 3.2 Padrão de Rotas
+
+**Template Obrigatório:**
+
+```typescript
+import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
+import { authenticate, authorize } from '@/http/middlewares';
+import { someSchema } from './module.schemas';
+import { moduleService } from './module.service';
+
+export const moduleRoutes: FastifyPluginAsyncZod = async (app) => {
+  app.get(
+    '/',
+    {
+      schema: someSchema,
+      preHandler: [authenticate, authorize(['ADMIN'])],
+    },
+    async (request, reply) => {
+      const result = await moduleService.someMethod(request.query);
+      return reply.send(result);
+    },
+  );
+};
+```
+
+### 3.3 O que uma Rota PODE Fazer
+
+- **PODE:** Receber request e extrair dados (query, params, body)
+- **PODE:** Chamar métodos de service
+- **PODE:** Retornar resposta formatada
+- **PODE:** Aplicar middlewares (auth, validação, etc.)
+
+### 3.4 O que uma Rota NÃO PODE Fazer
+
+- **PROIBIDO:** Conter lógica de negócio
+- **PROIBIDO:** Acessar banco de dados diretamente
+- **PROIBIDO:** Acessar cache diretamente
+- **PROIBIDO:** Fazer transformações complexas de dados (usar serializers)
+- **PROIBIDO:** Tratar erros manualmente (deixar para error handler global)
+- **PROIBIDO:** Validar dados manualmente (usar schemas Zod)
+
+### 3.5 Padrões de Nomenclatura
+
+- **OBRIGATÓRIO:** Arquivo de rotas: `{module}.routes.ts`
+- **OBRIGATÓRIO:** Export da rota: `{module}Routes` (camelCase)
+- **OBRIGATÓRIO:** Prefixo da rota: `/{module}` (plural, lowercase)
+- **OBRIGATÓRIO:** Rotas RESTful quando aplicável (GET, POST, PUT, DELETE)
+
+### 3.6 Registro de Rotas
+
+- **OBRIGATÓRIO:** Registrar rotas em `src/config/plugins/routes.config.ts`
+- **OBRIGATÓRIO:** Prefixo DEVE ser definido no registro: `app.register(moduleRoutes, { prefix: '/module' })`
+- **PROIBIDO:** Definir prefixo dentro do arquivo de rotas
+
+---
+
+## 4. SERVICES / USE CASES
+
+### 4.1 Responsabilidade Exclusiva
+
+- **OBRIGATÓRIO:** Services DEVE conter APENAS lógica de negócio
+- **OBRIGATÓRIO:** Services DEVE orquestrar chamadas a repositories
+- **OBRIGATÓRIO:** Services DEVE validar regras de negócio antes de persistir
+- **PROIBIDO:** Services conhecerem detalhes de HTTP (FastifyRequest, FastifyReply)
+- **PROIBIDO:** Services conhecerem detalhes de infraestrutura diretamente
+
+### 4.2 Padrão de Service
+
+**Template Obrigatório (Futuro - com Dependency Injection):**
+
+```typescript
+// Interface em core/interfaces/
+export interface IModuleRepository {
+  findAll(skip: number, take: number): Promise<ModuleDTO[]>;
+  // ...
+}
+
+export interface ICacheService {
+  get<T>(key: string): Promise<T | null>;
+  set(key: string, value: unknown, ttl: number): Promise<void>;
+}
+
+// Service
+export class ModuleService {
+  constructor(
+    private repository: IModuleRepository,
+    private cache: ICacheService,
+  ) {}
+
+  async findAll(page: number, limit: number) {
+    // Lógica de negócio
+  }
+}
+```
+
+**Template Atual (Transição):**
+
+```typescript
+// Enquanto DI não está implementado, usar objetos mas preparar para migração
+export const moduleService = {
+  async findAll(page: number, limit: number) {
+    // Lógica de negócio
+    // TODO: Migrar para classe com DI
+  },
+};
+```
+
+### 4.3 Comunicação com Repositories
+
+- **OBRIGATÓRIO:** Services DEVE usar interfaces de repositories (quando implementadas)
+- **OBRIGATÓRIO:** Services NÃO PODE conhecer Prisma diretamente
+- **PROIBIDO:** Services fazerem queries SQL ou Prisma diretamente
+
+### 4.4 Tratamento de Erros em Services
+
+- **OBRIGATÓRIO:** Services DEVE lançar exceções customizadas (`AppError` e subclasses)
+- **OBRIGATÓRIO:** Mensagens de erro DEVE ser claras e específicas
+- **PROIBIDO:** Services retornarem `null` ou `undefined` para erros (lançar exceção)
+- **PROIBIDO:** Services logarem erros diretamente (deixar para error handler)
+
+### 4.5 Regras de Transação
+
+- **OBRIGATÓRIO:** Operações que modificam múltiplas entidades DEVE usar transações
+- **OBRIGATÓRIO:** Transações DEVE ser gerenciadas no nível de service
+- **PROIBIDO:** Repositories gerenciarem transações (apenas executar)
+
+### 4.6 Padrões de Nomenclatura
+
+- **OBRIGATÓRIO:** Arquivo: `{module}.service.ts`
+- **OBRIGATÓRIO:** Export: `{module}Service` (camelCase)
+- **OBRIGATÓRIO:** Métodos em camelCase, verbos descritivos: `findById`, `create`, `update`
+
+---
+
+## 5. REPOSITORIES E ACESSO A DADOS
+
+### 5.1 Isolamento do Banco
+
+- **OBRIGATÓRIO:** Repositories DEVE ser a ÚNICA camada que acessa banco de dados
+- **OBRIGATÓRIO:** Repositories DEVE usar Prisma (ou abstração futura)
+- **PROIBIDO:** Outras camadas acessarem Prisma diretamente
+- **PROIBIDO:** Repositories conterem lógica de negócio
+
+### 5.2 Padrão de Repository
+
+**Template Obrigatório:**
+
+```typescript
+import type { Prisma } from 'generated/prisma/client';
+import { prisma } from '@/infra/db/prisma';
+import type { ModuleDTO, moduleSelect } from './module.dto';
+
+export const moduleRepository = {
+  async findAll(skip: number, take: number): Promise<ModuleDTO[]> {
+    return await prisma.module.findMany({
+      skip,
+      take,
+      select: moduleSelect,
+      orderBy: { created_at: 'desc' },
+    });
+  },
+  
+  // Outros métodos...
+};
+```
+
+### 5.3 Regras de Queries
+
+- **OBRIGATÓRIO:** Sempre usar `select` específico (nunca `select *`)
+- **OBRIGATÓRIO:** Definir `moduleSelect` em `{module}.dto.ts`
+- **OBRIGATÓRIO:** Queries DEVE retornar DTOs tipados
+- **PROIBIDO:** Retornar modelos completos do Prisma (usar DTOs)
+
+### 5.4 Paginação e Filtros
+
+- **OBRIGATÓRIO:** Métodos de listagem DEVE aceitar `skip` e `take`
+- **OBRIGATÓRIO:** Ordenação padrão DEVE ser definida
+- **PODE:** Adicionar filtros opcionais como parâmetros
+- **PROIBIDO:** Lógica de paginação no service (apenas cálculo de skip/take)
+
+### 5.5 Padrões de Nomenclatura
+
+- **OBRIGATÓRIO:** Arquivo: `{module}.repository.ts`
+- **OBRIGATÓRIO:** Export: `{module}Repository` (camelCase)
+- **OBRIGATÓRIO:** Métodos: `findById`, `findByEmail`, `findAll`, `create`, `update`, `delete`
+
+---
+
+## 6. ERROR HANDLING
+
+### 6.1 Hierarquia de Erros
+
+- **OBRIGATÓRIO:** Usar hierarquia de erros definida em `src/http/errors/app-error.ts`
+- **OBRIGATÓRIO:** Criar novas classes de erro quando necessário, estendendo `AppError`
+- **PROIBIDO:** Lançar `Error` genérico diretamente
+- **PROIBIDO:** Criar classes de erro fora de `src/http/errors/`
+
+### 6.2 Classes de Erro Disponíveis
+
+```typescript
+AppError                    // Base (400)
+ConflictError              // 409
+ResourceNotFoundError      // 404
+UnauthorizedError          // 401
+ForbiddenError             // 403
+```
+
+- **OBRIGATÓRIO:** Usar a classe de erro mais específica possível
+- **OBRIGATÓRIO:** Mensagens DEVE ser claras e em inglês (ou português consistente)
+
+### 6.3 Padronização de Exceções
+
+- **OBRIGATÓRIO:** Todas as exceções DEVE ter `statusCode` e `code`
+- **OBRIGATÓRIO:** Código de erro DEVE seguir padrão: `ERR_{TIPO}` (ex: `ERR_NOT_FOUND`)
+- **PROIBIDO:** Mensagens de erro exporem informações sensíveis em produção
+
+### 6.4 Conversão para HTTP
+
+- **OBRIGATÓRIO:** Error handler global em `src/http/error-handler.ts` DEVE converter todas as exceções
+- **OBRIGATÓRIO:** Formato de resposta DEVE ser consistente:
+  ```typescript
+  {
+    timestamp: string;
+    statusCode: number;
+    code: string;
+    message: string;
+    fields?: Array<{ field: string; message: string }>; // Para validação
+  }
+  ```
+- **PROIBIDO:** Rotas tratarem erros manualmente (deixar para error handler)
+
+### 6.5 Logs Estruturados
+
+- **OBRIGATÓRIO:** Erros DEVE ser logados pelo error handler
+- **OBRIGATÓRIO:** Logs DEVE incluir contexto (correlation ID quando implementado)
+- **PROIBIDO:** Logar informações sensíveis (senhas, tokens, etc.)
+
+---
+
+## 7. TYPESCRIPT
+
+### 7.1 Strict Mode
+
+- **OBRIGATÓRIO:** TypeScript strict mode DEVE estar sempre habilitado
+- **OBRIGATÓRIO:** `tsconfig.json` DEVE ter `"strict": true`
+- **PROIBIDO:** Desabilitar strict mode para "facilitar" desenvolvimento
+
+### 7.2 Proibição de `any`
+
+- **PROIBIDO:** Usar `any` em código de produção
+- **PODE:** Usar `any` apenas em:
+  - Testes (quando necessário para mocks)
+  - Declarações de tipos de bibliotecas externas sem tipos
+  - Casos extremamente raros, COM justificativa em comentário
+
+### 7.3 Tipagem Explícita em Boundaries
+
+- **OBRIGATÓRIO:** Tipar explicitamente parâmetros de funções públicas
+- **OBRIGATÓRIO:** Tipar explicitamente retornos de funções públicas
+- **OBRIGATÓRIO:** Tipar explicitamente interfaces e tipos exportados
+- **PODE:** Usar inferência de tipos em funções privadas/internas
+
+### 7.4 Preferência por Tipos Reutilizáveis
+
+- **OBRIGATÓRIO:** Criar tipos reutilizáveis em `{module}.dto.ts` ou `core/shared/types/`
+- **OBRIGATÓRIO:** Usar `satisfies` quando apropriado para garantir tipos
+- **PROIBIDO:** Duplicar definições de tipos
+- **PROIBIDO:** Usar tipos inline complexos em múltiplos lugares
+
+### 7.5 Type Assertions
+
+- **PROIBIDO:** Usar `as` type assertions sem justificativa
+- **PODE:** Usar `as` apenas quando:
+  - Type narrowing não é possível
+  - Integração com bibliotecas externas sem tipos adequados
+  - COM comentário explicando por quê
+
+---
+
+## 8. VALIDAÇÃO E SCHEMAS
+
+### 8.1 Onde Validar
+
+- **OBRIGATÓRIO:** Validação DEVE acontecer na camada HTTP (rotas)
+- **OBRIGATÓRIO:** Usar Zod para validação de entrada (body, query, params)
+- **OBRIGATÓRIO:** Schemas DEVE estar em `{module}.schemas.ts`
+- **PROIBIDO:** Validar dados manualmente em services ou repositories
+
+### 8.2 Como Validar
+
+- **OBRIGATÓRIO:** Usar `fastify-type-provider-zod` para integração
+- **OBRIGATÓRIO:** Schemas DEVE ser definidos com Zod
+- **OBRIGATÓRIO:** Mensagens de erro DEVE ser customizadas e claras
+- **OBRIGATÓRIO:** Schemas DEVE incluir `tags`, `summary` para Swagger
+
+**Template Obrigatório:**
+
+```typescript
+import { z } from 'zod';
+
+export const someSchema = {
+  tags: ['Module'],
+  summary: 'Descrição da rota',
+  body: z.object({
+    field: z.string().min(3, 'Mensagem de erro clara'),
+  }),
+  querystring: z.object({
+    page: z.coerce.number().default(1),
+  }),
+  response: {
+    200: z.object({
+      // Schema de resposta
+    }),
+  },
+};
+```
+
+### 8.3 Evitar Duplicação
+
+- **OBRIGATÓRIO:** Reutilizar schemas base quando possível
+- **OBRIGATÓRIO:** Criar schemas compartilhados em `core/shared/types/` quando necessário
+- **PROIBIDO:** Duplicar validações entre módulos
+
+### 8.4 Integração com Swagger
+
+- **OBRIGATÓRIO:** Todos os schemas DEVE ser compatíveis com Swagger
+- **OBRIGATÓRIO:** Incluir `tags` e `summary` em todos os schemas
+- **OBRIGATÓRIO:** Documentar exemplos quando necessário
+
+---
+
+## 9. SEGURANÇA
+
+### 9.1 Autenticação e Autorização
+
+- **OBRIGATÓRIO:** Rotas protegidas DEVE usar middleware `authenticate`
+- **OBRIGATÓRIO:** Rotas com controle de acesso DEVE usar middleware `authorize`
+- **OBRIGATÓRIO:** Middlewares DEVE estar em `preHandler` do schema da rota
+- **PROIBIDO:** Validar tokens manualmente em rotas
+- **PROIBIDO:** Verificar roles manualmente em rotas
+
+**Template Obrigatório:**
+
+```typescript
+app.get(
+  '/protected',
+  {
+    schema: someSchema,
+    preHandler: [authenticate, authorize(['ADMIN'])],
+  },
+  async (request, reply) => {
+    // Handler
+  },
+);
+```
+
+### 9.2 Proteção de Endpoints
+
+- **OBRIGATÓRIO:** Endpoints públicos DEVE estar explicitamente marcados (sem `authenticate`)
+- **OBRIGATÓRIO:** Endpoints administrativos DEVE usar `authorize(['ADMIN'])`
+- **PROIBIDO:** Assumir que endpoint é público por padrão
+
+### 9.3 Boas Práticas Mínimas Obrigatórias
+
+- **OBRIGATÓRIO:** Senhas DEVE ser hasheadas com Argon2
+- **OBRIGATÓRIO:** Tokens JWT DEVE ter expiração configurada
+- **OBRIGATÓRIO:** Rate limiting DEVE estar configurado (global e por rota quando necessário)
+- **OBRIGATÓRIO:** Headers de segurança DEVE estar configurados (Helmet)
+- **PROIBIDO:** Logar senhas, tokens ou informações sensíveis
+- **PROIBIDO:** Expor informações sensíveis em mensagens de erro
+
+---
+
+## 10. PERFORMANCE E CACHE
+
+### 10.1 Quando Usar Cache
+
+- **PODE:** Usar cache para dados frequentemente acessados e raramente modificados
+- **PODE:** Usar cache para resultados de queries pesadas
+- **PROIBIDO:** Usar cache para dados críticos de negócio sem fallback
+- **PROIBIDO:** Usar cache para dados que mudam frequentemente
+
+### 10.2 Onde o Cache Pode Existir
+
+- **PODE:** Cache DEVE ser acessado via service (não diretamente em rotas)
+- **OBRIGATÓRIO:** Services DEVE usar interface de cache (quando implementada)
+- **PROIBIDO:** Repositories acessarem cache diretamente
+- **PROIBIDO:** Rotas acessarem cache diretamente
+
+### 10.3 Proibição de Cache Acoplado
+
+- **PROIBIDO:** Services conhecerem detalhes de implementação de cache (Redis, chaves, TTLs)
+- **OBRIGATÓRIO:** Usar abstração de cache (`ICacheService` quando implementada)
+- **OBRIGATÓRIO:** TTLs DEVE ser definidos em constantes, não hardcoded
+
+**Template Futuro:**
+
+```typescript
+// core/shared/constants.ts
+export const CACHE_TTL = {
+  USER_LIST: 60 * 5,
+  USER_PROFILE: 60 * 10,
+} as const;
+
+// Service usando interface
+class UsersService {
+  constructor(private cache: ICacheService) {}
+  
+  async findAll() {
+    await this.cache.set(key, value, CACHE_TTL.USER_LIST);
+  }
+}
+```
+
+### 10.4 Estratégia de Invalidação
+
+- **OBRIGATÓRIO:** Invalidar cache quando dados são modificados
+- **OBRIGATÓRIO:** Usar padrões de chave consistentes: `{module}:{operation}:{params}`
+- **PROIBIDO:** Invalidar cache de forma custosa (evitar `invalidateByPattern` em loops)
+
+---
+
+## 11. TESTES
+
+### 11.1 Tipos de Testes Obrigatórios
+
+- **OBRIGATÓRIO:** Testes unitários para services
+- **OBRIGATÓRIO:** Testes unitários para repositories
+- **OBRIGATÓRIO:** Testes de integração para rotas
+- **PODE:** Testes E2E para fluxos críticos
+
+### 11.2 Onde Cada Tipo Deve Existir
+
+- **OBRIGATÓRIO:** Testes unitários DEVE estar em `src/modules/{module}/__tests__/unit/`
+- **OBRIGATÓRIO:** Testes de integração DEVE estar em `src/modules/{module}/__tests__/integration/`
+- **OBRIGATÓRIO:** Testes E2E DEVE estar em `src/__tests__/e2e/` ou `tests/e2e/`
+- **PROIBIDO:** Misturar testes unitários e de integração no mesmo arquivo
+
+### 11.3 Regras de Isolamento
+
+- **OBRIGATÓRIO:** Testes unitários DEVE usar mocks para dependências externas
+- **OBRIGATÓRIO:** Testes DEVE ser isolados (não depender de ordem de execução)
+- **OBRIGATÓRIO:** Setup e teardown DEVE limpar estado entre testes
+- **PROIBIDO:** Testes dependerem de estado global
+- **PROIBIDO:** Testes fazerem chamadas HTTP reais (usar mocks ou test app)
+
+### 11.4 Cobertura Mínima
+
+- **OBRIGATÓRIO:** Cobertura mínima DEVE ser 80% (configurar thresholds no `vitest.config.ts`)
+- **OBRIGATÓRIO:** Novos módulos DEVE ter testes desde o início
+- **PROIBIDO:** Commitar código sem testes correspondentes
+
+### 11.5 Padrões de Testes
+
+**Template Unitário:**
+
+```typescript
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { moduleService } from '../module.service';
+import { moduleRepository } from '../module.repository';
+
+vi.mock('../module.repository');
+
+describe('ModuleService', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  describe('findAll', () => {
+    it('should return paginated results', async () => {
+      // Arrange
+      vi.mocked(moduleRepository.findAll).mockResolvedValue([]);
+      
+      // Act
+      const result = await moduleService.findAll(1, 10);
+      
+      // Assert
+      expect(result).toBeDefined();
+    });
+  });
+});
+```
+
+**Template Integração:**
+
+```typescript
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { buildTestApp } from '@/__tests__/helpers/test-helpers';
+
+describe('Module Routes', () => {
+  let app: Awaited<ReturnType<typeof buildTestApp>>;
+
+  beforeAll(async () => {
+    app = await buildTestApp();
+  });
+
+  it('should return 200 for valid request', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: '/module',
+    });
+
+    expect(response.statusCode).toBe(200);
+  });
+});
+```
+
+---
+
+## 12. OBSERVABILIDADE
+
+### 12.1 Logging
+
+- **OBRIGATÓRIO:** Usar logger do Fastify (`request.log` ou `app.log`)
+- **OBRIGATÓRIO:** Logs DEVE ser estruturados (objetos, não strings)
+- **OBRIGATÓRIO:** Incluir contexto relevante nos logs
+- **PROIBIDO:** Usar `console.log` em código de produção
+- **PROIBIDO:** Logar informações sensíveis
+
+**Template:**
+
+```typescript
+request.log.info({
+  msg: 'User created',
+  userId: user.id,
+  email: user.email,
+});
+```
+
+### 12.2 Tratamento de Erros Inesperados
+
+- **OBRIGATÓRIO:** Error handler global DEVE logar todos os erros
+- **OBRIGATÓRIO:** Erros inesperados DEVE incluir stack trace em logs (não na resposta)
+- **OBRIGATÓRIO:** Preparar para correlation IDs (quando implementado)
+
+### 12.3 Preparação para Métricas e Tracing
+
+- **OBRIGATÓRIO:** Estrutura DEVE permitir adicionar métricas sem quebrar código existente
+- **PODE:** Usar hooks do Fastify para coletar métricas
+- **PROIBIDO:** Métricas acoplarem código de negócio
+
+---
+
+## 13. DEPENDENCY INJECTION (FUTURO)
+
+### 13.1 Preparação para DI
+
+- **OBRIGATÓRIO:** Criar interfaces para todas as dependências em `core/interfaces/`
+- **OBRIGATÓRIO:** Services DEVE ser preparados para receber dependências via construtor
+- **OBRIGATÓRIO:** Durante transição, manter compatibilidade com padrão atual
+
+### 13.2 Interfaces Obrigatórias (Quando Implementadas)
+
+- **OBRIGATÓRIO:** `ICacheService` em `core/interfaces/cache.interface.ts`
+- **OBRIGATÓRIO:** `IRepository<T>` base em `core/interfaces/repository.interface.ts`
+- **OBRIGATÓRIO:** `ILogger` em `core/interfaces/logger.interface.ts`
+- **OBRIGATÓRIO:** Interfaces específicas de módulos quando necessário
+
+---
+
+## 14. CONSTANTES E CONFIGURAÇÕES
+
+### 14.1 Magic Numbers
+
+- **PROIBIDO:** Valores hardcoded no código (magic numbers)
+- **OBRIGATÓRIO:** Extrair constantes para arquivo `core/shared/constants.ts` ou `config/constants.ts`
+- **OBRIGATÓRIO:** Nomear constantes de forma descritiva
+
+**Exemplo:**
+
+```typescript
+// ❌ PROIBIDO
+await cache.set(key, value, 60 * 5);
+
+// ✅ OBRIGATÓRIO
+import { CACHE_TTL } from '@/core/shared/constants';
+await cache.set(key, value, CACHE_TTL.USER_LIST);
+```
+
+### 14.2 Variáveis de Ambiente
+
+- **OBRIGATÓRIO:** Todas as variáveis DEVE ser validadas em `src/config/env.ts`
+- **OBRIGATÓRIO:** Usar Zod para validação de env
+- **PROIBIDO:** Acessar `process.env` diretamente no código
+- **PROIBIDO:** Valores padrão hardcoded (usar defaults no schema Zod)
+
+---
+
+## 15. DOCUMENTAÇÃO
+
+### 15.1 Documentação de Código
+
+- **OBRIGATÓRIO:** Funções públicas DEVE ter JSDoc quando não são auto-explicativas
+- **OBRIGATÓRIO:** Classes e interfaces complexas DEVE ter documentação
+- **PODE:** Comentários inline para lógica complexa de negócio
+- **PROIBIDO:** Comentários óbvios que apenas repetem o código
+
+**Template JSDoc:**
+
+```typescript
+/**
+ * Cria um novo usuário no sistema
+ * 
+ * @param data - Dados do usuário a ser criado
+ * @returns Usuário criado (sem senha)
+ * @throws ConflictError se email já existir
+ */
+async create(data: CreateUserSchema): Promise<UserDTO> {
+  // ...
+}
+```
+
+### 15.2 Documentação de Arquitetura
+
+- **OBRIGATÓRIO:** Decisões arquiteturais importantes DEVE ser documentadas em `docs/`
+- **OBRIGATÓRIO:** README.md DEVE estar atualizado
+- **OBRIGATÓRIO:** Guias de desenvolvimento DEVE estar em `docs/`
+
+---
+
+## 16. CONVENÇÕES DE CÓDIGO
+
+### 16.1 Nomenclatura
+
+- **OBRIGATÓRIO:** Arquivos: `kebab-case.ts` ou `camelCase.ts` (seguir padrão do módulo)
+- **OBRIGATÓRIO:** Exports: `camelCase` para objetos/funções, `PascalCase` para classes
+- **OBRIGATÓRIO:** Variáveis e funções: `camelCase`
+- **OBRIGATÓRIO:** Classes e tipos: `PascalCase`
+- **OBRIGATÓRIO:** Constantes: `UPPER_SNAKE_CASE`
+
+### 16.2 Imports
+
+- **OBRIGATÓRIO:** Usar path aliases (`@/`) para imports internos
+- **OBRIGATÓRIO:** Organizar imports: externos → internos → relativos
+- **OBRIGATÓRIO:** Usar imports nomeados quando possível
+- **PROIBIDO:** Imports circulares entre módulos
+
+### 16.3 Formatação
+
+- **OBRIGATÓRIO:** Usar Biome para formatação automática
+- **OBRIGATÓRIO:** Commits DEVE passar no lint (`pnpm lint`)
+- **PROIBIDO:** Commitar código não formatado
+
+---
+
+## 17. REFATORAÇÃO E EVOLUÇÃO
+
+### 17.1 Princípios de Refatoração
+
+- **OBRIGATÓRIO:** Refatorações DEVE ser incrementais e testáveis
+- **OBRIGATÓRIO:** Manter compatibilidade durante transições
+- **OBRIGATÓRIO:** Documentar mudanças arquiteturais em `docs/`
+- **PROIBIDO:** Refatorações que quebram funcionalidades existentes sem testes
+
+### 17.2 Migração Gradual
+
+- **PODE:** Manter padrão antigo durante migração se necessário
+- **OBRIGATÓRIO:** Marcar código legado com `TODO: Migrar para novo padrão`
+- **OBRIGATÓRIO:** Priorizar novos módulos seguindo padrão novo
+
+---
+
+## 18. VALIDAÇÃO E ENFORCEMENT
+
+### 18.1 Ferramentas de Validação
+
+- **OBRIGATÓRIO:** Biome para linting e formatação
+- **OBRIGATÓRIO:** TypeScript para type checking
+- **OBRIGATÓRIO:** Vitest para testes
+- **OBRIGATÓRIO:** Pre-commit hooks (Husky) para validação automática
+
+### 18.2 Code Review
+
+- **OBRIGATÓRIO:** Revisar código antes de merge
+- **OBRIGATÓRIO:** Verificar aderência a estas rules
+- **OBRIGATÓRIO:** Verificar cobertura de testes
+
+---
+
+## 19. EXCEÇÕES E CASOS ESPECIAIS
+
+### 19.1 Quando Quebrar as Rules
+
+- **PODE:** Quebrar rules apenas com justificativa arquitetural clara
+- **OBRIGATÓRIO:** Documentar exceção em comentário ou ADR
+- **OBRIGATÓRIO:** Revisar exceção em code review
+
+### 19.2 Evolução das Rules
+
+- **PODE:** Atualizar rules quando necessário
+- **OBRIGATÓRIO:** Documentar mudanças em `docs/`
+- **OBRIGATÓRIO:** Comunicar mudanças à equipe
+
+---
+
+## 20. CHECKLIST DE VALIDAÇÃO
+
+Antes de commitar código, verificar:
+
+- [ ] Código segue estrutura de pastas definida
+- [ ] Separação de responsabilidades respeitada
+- [ ] TypeScript strict mode sem erros
+- [ ] Sem uso de `any` (exceto casos documentados)
+- [ ] Testes implementados e passando
+- [ ] Schemas Zod definidos para validação
+- [ ] Erros usando classes customizadas
+- [ ] Sem magic numbers (constantes extraídas)
+- [ ] Imports organizados e usando path aliases
+- [ ] Código formatado (Biome)
+- [ ] Documentação atualizada quando necessário
+
+---
+
+**Última atualização:** Janeiro 2025  
+**Versão:** 1.0.0  
+**Manutenção:** Este arquivo DEVE ser atualizado quando padrões mudarem
+

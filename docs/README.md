@@ -4,6 +4,36 @@ Esta pasta contém toda a documentação técnica do projeto API Solid.
 
 ## 📚 Documentos Disponíveis
 
+### [🔍 Diagnóstico Arquitetural Profundo](./diagnostico-arquitetural-profundo.md) ⭐ **NOVO - LEIA PRIMEIRO**
+
+Análise técnica extremamente criteriosa e detalhada do repositório atual, com foco em transformá-lo em boilerplate enterprise:
+
+- 🔍 **Auditoria completa** de stack e dependências
+- 🏗️ **Análise arquitetural profunda** (SOLID, acoplamentos, responsabilidades)
+- 💻 **Análise de código** arquivo por arquivo
+- 🔄 **Análise de fluxo** e separação de responsabilidades
+- 🛣️ **Sistema de rotas** - estado atual e potencial para decorators
+- ⚠️ **Error handling** e padronização
+- 🔒 **Segurança crítica** - análise completa
+- ⚡ **Performance** e escalabilidade
+- 🧪 **Testes** - estado crítico e lacunas
+- 🚀 **CI/CD** e operações
+- 📚 **Documentação** e padrões
+- 👨‍💻 **Developer Experience (DX)**
+- 🎯 **Potencial como boilerplate enterprise**
+- 📋 **Plano estratégico de evolução** detalhado
+
+**Destaques:**
+- Análise crítica e honesta (sem suavizar problemas)
+- Justificativas técnicas para cada conclusão
+- Trade-offs identificados
+- Priorização clara (crítico → alto → médio)
+- Roadmap estratégico sem código (apenas diagnóstico)
+
+**Última atualização:** Janeiro 2025
+
+---
+
 ### [Avaliação do Repositório Atual](./avaliacao-repositorio-atual.md)
 
 Análise completa e detalhada da codebase atual, incluindo:
@@ -61,26 +91,38 @@ Guia prático e detalhado passo a passo para transformar o projeto em uma aplica
 
 ```
 docs/
-├── README.md                          # Este arquivo (índice)
-├── avaliacao-repositorio-atual.md     # Avaliação completa da codebase
-└── guia-planejamento-melhorias.md     # Guia passo a passo de implementação ⭐
+├── README.md                              # Este arquivo (índice)
+├── diagnostico-arquitetural-profundo.md    # 🔍 Diagnóstico técnico completo ⭐ NOVO
+├── avaliacao-repositorio-atual.md          # Avaliação completa da codebase
+└── guia-planejamento-melhorias.md         # Guia passo a passo de implementação ⭐
 ```
 
 ---
 
 ## 🎯 Como Usar Esta Documentação
 
-### Para Entender o Estado Atual:
-1. **Leia a Avaliação do Repositório** para entender pontos positivos e negativos
-2. **Revise os Problemas Críticos** identificados
-3. **Consulte as Análises Detalhadas** (arquitetura, segurança, performance, etc.)
+### Para Entender o Estado Atual (Recomendado):
+1. **🔍 Leia PRIMEIRO o Diagnóstico Arquitetural Profundo**
+   - Análise técnica extremamente criteriosa
+   - Identifica problemas reais com justificativas
+   - Avalia potencial como boilerplate enterprise
+   - **Não contém código ainda** - apenas diagnóstico estratégico
+
+2. **Leia a Avaliação do Repositório** para contexto adicional
+   - Pontos positivos e negativos detalhados
+   - Análises por dimensão (arquitetura, segurança, etc.)
 
 ### Para Implementar Melhorias:
-1. **Siga o Guia de Planejamento** passo a passo (recomendado)
-2. **Execute as fases em ordem** (cada fase tem dependências)
-3. **Valide cada fase** antes de prosseguir
-4. **Consulte as Boas Práticas** durante o desenvolvimento
+1. **Consulte o Diagnóstico** para entender problemas e soluções
+2. **Siga o Guia de Planejamento** passo a passo
+3. **Execute as fases em ordem** (cada fase tem dependências)
+4. **Valide cada fase** antes de prosseguir
 5. **Use os exemplos de código** fornecidos no guia
+
+### Ordem Recomendada de Leitura:
+1. 🔍 **Diagnóstico Arquitetural Profundo** (entender estado atual)
+2. 📋 **Guia de Planejamento** (como implementar)
+3. 📊 **Avaliação do Repositório** (contexto adicional)
 
 ---
 
