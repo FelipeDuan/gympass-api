@@ -1,4 +1,5 @@
-import { app } from '@/config/app';
+import type { ILogger } from '@/core/interfaces/logger.interface';
+import { CIRCUIT_BREAKER } from '@/core/shared/constants';
 
 enum CircuitState {
   CLOSED,
@@ -6,14 +7,31 @@ enum CircuitState {
   HALF_OPEN,
 }
 
+/**
+ * Circuit Breaker Pattern Implementation
+ *
+ * Protege contra falhas em cascata quando serviços externos falham.
+ * Abre o circuito após um número de falhas, permitindo recuperação após timeout.
+ *
+ * @example
+ * ```typescript
+ * const logger = new FastifyLoggerAdapter(app.log);
+ * const breaker = new CircuitBreaker(logger);
+ *
+ * const result = await breaker.execute(async () => {
+ *   return await externalService.call();
+ * });
+ * ```
+ */
 export class CircuitBreaker {
   private state = CircuitState.CLOSED;
   private failures = 0;
   private lastFailureTime?: number;
 
   constructor(
-    private threshold = 5,
-    private recoveryTimeout = 30000,
+    private readonly logger: ILogger,
+    private threshold = CIRCUIT_BREAKER.THRESHOLD,
+    private recoveryTimeout = CIRCUIT_BREAKER.RECOVERY_TIMEOUT_MS,
   ) {}
 
   async execute<T>(fn: () => Promise<T>): Promise<T | null> {
@@ -43,7 +61,7 @@ export class CircuitBreaker {
   private onFailure(error: unknown) {
     this.failures++;
     this.lastFailureTime = Date.now();
-    app.log.warn({
+    this.logger.warn({
       msg: 'Circuit Breaker Failure',
       failures: this.failures,
       error,
@@ -51,7 +69,7 @@ export class CircuitBreaker {
 
     if (this.failures >= this.threshold) {
       this.state = CircuitState.OPEN;
-      app.log.fatal('CIRCUIT BREAKER OPENED - Redis is bypassed');
+      this.logger.fatal('CIRCUIT BREAKER OPENED - Redis is bypassed');
     }
   }
 }
