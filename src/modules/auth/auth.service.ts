@@ -1,26 +1,38 @@
 import { verify } from 'argon2';
-import type { FastifyInstance } from 'fastify';
 import type { Role } from 'generated/prisma/client';
+import type { IAuthRepository } from '@/core/interfaces/auth.repository.interface';
+import type { ITokenService } from '@/core/interfaces/token.interface';
+import type { IUsersService } from '@/core/interfaces/users.service.interface';
 import { UnauthorizedError } from '@/http/errors/app-error';
-import { usersService } from '../users/users.service';
-import { authRepository } from './auth.repository';
 import type { LoginSchema, RegisterSchema } from './auth.schemas';
 
-export const authService = {
-  async register(
-    app: FastifyInstance,
-    data: RegisterSchema,
-  ): Promise<{
+/**
+ * Service de autenticação
+ *
+ * @example
+ * ```typescript
+ * const tokenService = new JwtTokenService(app.jwt);
+ * const authService = new AuthService(tokenService, usersService);
+ * ```
+ */
+export class AuthService {
+  constructor(
+    private readonly tokenService: ITokenService,
+    private readonly usersService: IUsersService,
+    private readonly authRepository: IAuthRepository,
+  ) {}
+
+  async register(data: RegisterSchema): Promise<{
     token: string;
     user: { id: string; name: string; email: string; role: Role };
   }> {
-    const user = await usersService.create({
+    const user = await this.usersService.create({
       name: data.name,
       email: data.email,
       password: data.password,
     });
 
-    const token = app.jwt.sign({
+    const token = this.tokenService.sign({
       sub: user.id,
       email: user.email,
       role: user.role,
@@ -35,16 +47,13 @@ export const authService = {
         role: user.role,
       },
     };
-  },
+  }
 
-  async login(
-    app: FastifyInstance,
-    data: LoginSchema,
-  ): Promise<{
+  async login(data: LoginSchema): Promise<{
     token: string;
     user: { id: string; name: string; email: string; role: Role };
   }> {
-    const userWithPassword = await authRepository.findByEmailWithPassword(
+    const userWithPassword = await this.authRepository.findByEmailWithPassword(
       data.email,
     );
 
@@ -61,7 +70,7 @@ export const authService = {
       throw new UnauthorizedError('Invalid credentials.');
     }
 
-    const token = app.jwt.sign({
+    const token = this.tokenService.sign({
       sub: userWithPassword.id,
       email: userWithPassword.email,
       role: userWithPassword.role,
@@ -76,5 +85,5 @@ export const authService = {
         role: userWithPassword.role,
       },
     };
-  },
-};
+  }
+}
