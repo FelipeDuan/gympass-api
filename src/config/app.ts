@@ -11,6 +11,7 @@ import {
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
 import { redis } from '@/infra/cache/redis';
+import { authRoutes } from '@/modules/auth/auth.routes';
 import { errorHandler } from '../http/error-handler';
 import { loggerConfig } from '../infra/logger/logger';
 import { usersRoutes } from '../modules/users/users.routes';
@@ -57,4 +58,5 @@ if (env.NODE_ENV === 'dev') {
 
 app.register(fastifyJwt, jwtConfig);
 
+app.register(authRoutes, { prefix: '/auth' });
 app.register(usersRoutes, { prefix: '/users' });
