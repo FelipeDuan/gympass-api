@@ -12,7 +12,7 @@ export const userPublicSchema = z.object({
 
 export const listUsersSchema = {
   tags: ['Users'],
-  summary: 'List users with pagination',
+  summary: 'Listar usuários com paginação',
   querystring: z.object({
     page: z.coerce.number().default(1),
     limit: z.coerce.number().default(10),
@@ -24,7 +24,7 @@ export const listUsersSchema = {
 
 export const createUserSchema = {
   tags: ['Users'],
-  summary: 'Register a new user',
+  summary: 'Regristrar novo usuário',
   body: z.object({
     name: z
       .string({ error: 'Nome inválido.' })
@@ -46,7 +46,7 @@ export const createUserSchema = {
 
 export const getProfileSchema = {
   tags: ['Users'],
-  summary: 'Obter perfil do usuário logado',
+  summary: 'Obter perfil do usuário autenticado',
   response: {
     200: userPublicSchema,
   },
