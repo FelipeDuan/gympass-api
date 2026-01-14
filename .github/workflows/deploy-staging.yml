@@ -1,0 +1,101 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: ['develop', 'staging']
+  workflow_dispatch: # Permite executar manualmente
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-deploy:
+    name: Build & Deploy to Staging
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+
+      - name: Instalar dependências
+        run: pnpm install --frozen-lockfile
+
+      - name: Build aplicação
+        run: pnpm build
+
+      - name: Login no GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:staging-${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:staging-latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy para Staging
+        run: |
+          echo "🚀 Deploy para staging..."
+          echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:staging-${{ github.sha }}"
+          echo ""
+          echo "⚠️  Configure seu ambiente de staging para usar esta imagem"
+          echo "Exemplo com docker-compose:"
+          echo "  docker-compose -f docker-compose.staging.yml pull"
+          echo "  docker-compose -f docker-compose.staging.yml up -d"
+          echo ""
+          echo "Ou com Kubernetes:"
+          echo "  kubectl set image deployment/api api=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:staging-${{ github.sha }}"
+          echo "  kubectl rollout status deployment/api"
+
+      - name: Health Check (se URL configurada)
+        if: env.STAGING_URL != ''
+        run: |
+          echo "⏳ Aguardando aplicação iniciar..."
+          sleep 30
+          
+          for i in {1..10}; do
+            if curl -f "${{ env.STAGING_URL }}/health"; then
+              echo "✅ Health check passou!"
+              exit 0
+            fi
+            echo "Tentativa $i/10..."
+            sleep 10
+          done
+          
+          echo "❌ Health check falhou após 10 tentativas"
+          exit 1
+        env:
+          STAGING_URL: ${{ secrets.STAGING_URL || '' }}
+
+      - name: Notificar Deploy
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Deploy para staging concluído com sucesso!"
+          else
+            echo "❌ Deploy para staging falhou!"
+          fi
+
