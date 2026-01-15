@@ -3,9 +3,12 @@
 import { hash } from 'argon2';
 import { createUserPrismaFixture } from '@/__tests__/fixtures/user.fixtures';
 import { testPrisma } from '@/__tests__/setup/database';
-import { authRepository } from '../../auth.repository';
+import { createAuthRepository } from '../../auth.repository';
 
 describe('AuthRepository (Integration)', () => {
+  // Cria instância do repository usando testPrisma para isolamento
+  const authRepository = createAuthRepository(testPrisma);
+
   beforeEach(async () => {
     // Limpeza adicional para garantir isolamento
     await testPrisma.checkIn.deleteMany();
