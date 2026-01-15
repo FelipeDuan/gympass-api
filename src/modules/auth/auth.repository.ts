@@ -1,6 +1,6 @@
 import type { PrismaClient, User } from 'generated/prisma/client';
 import type { IAuthRepository } from '@/core/interfaces/auth.repository.interface';
-import { prisma } from '@/infra/db/prisma';
+import { prisma } from '@/infrastructure/database/prisma';
 
 /**
  * Factory function para criar uma instância do AuthRepository

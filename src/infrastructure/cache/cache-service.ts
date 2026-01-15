@@ -1,8 +1,8 @@
 import type Redis from 'ioredis';
 import type { ICacheService } from '@/core/interfaces/cache.interface';
 import type { ILogger } from '@/core/interfaces/logger.interface';
-import { CircuitBreaker } from '@/core/resilience/circuit-breaker';
 import { CIRCUIT_BREAKER } from '@/core/shared/constants';
+import { CircuitBreaker } from '@/infrastructure/resilience/circuit-breaker';
 import { redis } from './redis';
 
 /**

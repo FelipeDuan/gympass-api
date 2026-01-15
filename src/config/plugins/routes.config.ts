@@ -1,8 +1,8 @@
 import type { FastifyInstance } from 'fastify';
-import { metricsCollector } from '@/infra/monitoring/metrics';
+import { healthRoutes } from '@/infrastructure/health/health.routes';
+import { metricsCollector } from '@/infrastructure/monitoring/metrics';
+import { monitoringRoutes } from '@/infrastructure/monitoring-endpoint/monitoring.routes';
 import { authRoutes } from '@/modules/auth/auth.routes';
-import { healthRoutes } from '@/modules/health/health.routes';
-import { monitoringRoutes } from '@/modules/monitoring/monitoring.routes';
 import { usersRoutes } from '@/modules/users/users.routes';
 
 export async function registerRoutes(app: FastifyInstance): Promise<void> {

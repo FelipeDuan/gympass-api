@@ -1,6 +1,6 @@
 import fastifyRateLimit from '@fastify/rate-limit';
 import type { FastifyInstance } from 'fastify';
-import { redis } from '@/infra/cache/redis';
+import { redis } from '@/infrastructure/cache/redis';
 import { rateLimitConfig } from '../rate-limit';
 
 export async function registerGlobalRateLimit(

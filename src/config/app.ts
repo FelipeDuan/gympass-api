@@ -7,7 +7,7 @@ import {
 } from 'fastify-type-provider-zod';
 import { createServices } from '../core/di/service-factory';
 import { errorHandler } from '../http/error-handler';
-import { loggerConfig } from '../infra/logger/logger';
+import { loggerConfig } from '../infrastructure/logger/logger';
 import { jwtConfig } from './jwt';
 import {
   registerAuthRateLimit,

@@ -1,28 +1,12 @@
 /// <reference types="vitest/globals" />
 
-import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import {
-  buildTestApp,
-  generateTestToken,
-} from '@/__tests__/helpers/test-helpers';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import { ForbiddenError } from '@/http/errors/app-error';
 import { authorize } from '../../authorize';
 
 describe('authorize middleware', () => {
-  let app: FastifyInstance;
-
-  beforeAll(async () => {
-    app = await buildTestApp();
-  });
-
   it('should allow access when user has required role', async () => {
     // Arrange
-    const token = await generateTestToken(app, {
-      sub: 'user-id',
-      email: 'admin@example.com',
-      role: 'ADMIN',
-    });
-
     const mockRequest = {
       user: {
         sub: 'user-id',

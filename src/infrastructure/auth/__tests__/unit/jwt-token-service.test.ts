@@ -10,8 +10,8 @@ describe('JwtTokenService', () => {
 
   beforeEach(() => {
     mockJwt = {
-      sign: vi.fn(),
-      verify: vi.fn(),
+      sign: vi.fn() as unknown as (payload: JWTPayload) => string,
+      verify: vi.fn() as unknown as (token: string) => JWTPayload,
     } as unknown as FastifyInstance['jwt'];
 
     tokenService = new JwtTokenService(mockJwt);
@@ -26,7 +26,7 @@ describe('JwtTokenService', () => {
         role: 'USER',
       };
       const expectedToken = 'mock-jwt-token';
-      vi.mocked(mockJwt.sign).mockReturnValue(expectedToken);
+      vi.mocked(mockJwt.sign).mockImplementation(() => expectedToken);
 
       // Act
       const result = tokenService.sign(payload);
@@ -44,7 +44,7 @@ describe('JwtTokenService', () => {
         role: 'ADMIN',
       };
       const expectedToken = 'admin-token';
-      vi.mocked(mockJwt.sign).mockReturnValue(expectedToken);
+      vi.mocked(mockJwt.sign).mockImplementation(() => expectedToken);
 
       // Act
       const result = tokenService.sign(payload);
@@ -64,7 +64,7 @@ describe('JwtTokenService', () => {
         email: 'user@example.com',
         role: 'USER',
       };
-      vi.mocked(mockJwt.verify).mockReturnValue(expectedPayload);
+      vi.mocked(mockJwt.verify).mockImplementation(() => expectedPayload);
 
       // Act
       const result = tokenService.verify(token);

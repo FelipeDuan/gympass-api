@@ -3,7 +3,6 @@
 import { hash } from 'argon2';
 import { createUserPrismaFixture } from '@/__tests__/fixtures/user.fixtures';
 import { testPrisma } from '@/__tests__/setup/database';
-import type { UserDTO } from '../../users.dto';
 import { createUsersRepository } from '../../users.repository';
 
 describe('UsersRepository (Integration)', () => {

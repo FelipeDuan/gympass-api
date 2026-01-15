@@ -4,20 +4,20 @@ import type { FastifyInstance } from 'fastify';
 import { createMockLogger } from '@/__tests__/helpers/mocks';
 
 // Mock dos módulos antes de importar o service
-vi.mock('@/infra/db/prisma', () => ({
+vi.mock('@/infrastructure/database/prisma', () => ({
   prisma: {
     $queryRaw: vi.fn(),
   },
 }));
 
-vi.mock('@/infra/cache/redis', () => ({
+vi.mock('@/infrastructure/cache/redis', () => ({
   redis: {
     ping: vi.fn(),
   },
 }));
 
-import { redis } from '@/infra/cache/redis';
-import { prisma } from '@/infra/db/prisma';
+import { redis } from '@/infrastructure/cache/redis';
+import { prisma } from '@/infrastructure/database/prisma';
 // Importa após os mocks
 import { healthService } from '../../health.service';
 
@@ -109,16 +109,16 @@ describe('HealthService', () => {
     });
 
     it('should include responseTime in checks when services are up', async () => {
-      // Arrange
-      vi.mocked(prisma.$queryRaw).mockImplementation(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 10));
-        return [{ '?column?': 1 }] as any;
+      // Arrange - Mock com delay para testar responseTime
+      const delayedDbResult = new Promise((resolve) => {
+        setTimeout(() => resolve([{ '?column?': 1 }] as any), 10);
       });
+      vi.mocked(prisma.$queryRaw).mockResolvedValue(delayedDbResult as any);
 
-      vi.mocked(redis.ping).mockImplementation(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 5));
-        return 'PONG';
+      const delayedRedisResult = new Promise((resolve) => {
+        setTimeout(() => resolve('PONG'), 5);
       });
+      vi.mocked(redis.ping).mockResolvedValue(delayedRedisResult as any);
 
       // Act
       const result = await healthService.performHealthCheck(mockApp);

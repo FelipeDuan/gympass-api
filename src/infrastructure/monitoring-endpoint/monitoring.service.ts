@@ -1,4 +1,4 @@
-import { metricsCollector } from '@/infra/monitoring/metrics';
+import { metricsCollector } from '@/infrastructure/monitoring/metrics';
 import type { MetricsResponse, RouteMetrics } from './monitoring.schemas';
 
 export const monitoringService = {

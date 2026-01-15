@@ -1,6 +1,6 @@
 /// <reference types="vitest/globals" />
 
-import { metricsCollector } from '@/infra/monitoring/metrics';
+import { metricsCollector } from '@/infrastructure/monitoring/metrics';
 import { monitoringService } from '../../monitoring.service';
 
 describe('MonitoringService', () => {

@@ -1,6 +1,6 @@
 import type { Prisma, PrismaClient } from 'generated/prisma/client';
 import type { IUsersRepository } from '@/core/interfaces/users.repository.interface';
-import { prisma } from '@/infra/db/prisma';
+import { prisma } from '@/infrastructure/database/prisma';
 import { type UserDTO, userSelect } from './users.dto';
 
 /**

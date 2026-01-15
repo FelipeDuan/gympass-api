@@ -17,7 +17,6 @@ import {
 } from '@/config/plugins';
 import { createServices } from '@/core/di/service-factory';
 import { errorHandler } from '@/http/error-handler';
-import { loggerConfig } from '@/infra/logger/logger';
 import { cleanDatabase } from '../setup/database';
 
 /**

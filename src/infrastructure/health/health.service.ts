@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
-import { redis } from '@/infra/cache/redis';
-import { prisma } from '@/infra/db/prisma';
+import { redis } from '@/infrastructure/cache/redis';
+import { prisma } from '@/infrastructure/database/prisma';
 import type { HealthCheck, HealthResponse } from './health.schemas';
 
 async function checkDatabase(app: FastifyInstance): Promise<HealthCheck> {
