@@ -11,10 +11,11 @@ describe('UsersRepository (Integration)', () => {
   const usersRepository = createUsersRepository(testPrisma);
 
   beforeEach(async () => {
-    // Limpeza adicional para garantir isolamento
-    await testPrisma.checkIn.deleteMany();
-    await testPrisma.gym.deleteMany();
-    await testPrisma.user.deleteMany();
+    await Promise.all([
+      testPrisma.checkIn.deleteMany(),
+      testPrisma.gym.deleteMany(),
+      testPrisma.user.deleteMany(),
+    ]);
   });
 
   describe('findByEmail', () => {
@@ -138,7 +139,7 @@ describe('UsersRepository (Integration)', () => {
       const users = [];
       for (let i = 0; i < 5; i++) {
         const userData = createUserPrismaFixture({
-          email: `user${i}@example.com`,
+          email: `user-${Date.now()}-${i}-${Math.random()}@example.com`,
           name: `User ${i}`,
         });
         userData.password_hash = await hash('password123');
@@ -165,9 +166,10 @@ describe('UsersRepository (Integration)', () => {
     it('should respect skip parameter', async () => {
       // Arrange
       const users = [];
+      const baseEmail = `skip-test-${Date.now()}-${Math.random()}`;
       for (let i = 0; i < 5; i++) {
         const userData = createUserPrismaFixture({
-          email: `user${i}@example.com`,
+          email: `${baseEmail}-${i}@example.com`,
           name: `User ${i}`,
         });
         userData.password_hash = await hash('password123');
@@ -185,9 +187,10 @@ describe('UsersRepository (Integration)', () => {
     it('should order by created_at desc', async () => {
       // Arrange
       const users = [];
+      const baseEmail = `order-test-${Date.now()}-${Math.random()}`;
       for (let i = 0; i < 3; i++) {
         const userData = createUserPrismaFixture({
-          email: `user${i}@example.com`,
+          email: `${baseEmail}-${i}@example.com`,
           name: `User ${i}`,
         });
         userData.password_hash = await hash('password123');
@@ -201,6 +204,7 @@ describe('UsersRepository (Integration)', () => {
       const result = await usersRepository.findAll(0, 10);
 
       // Assert - Most recent first
+      expect(result.length).toBeGreaterThanOrEqual(3);
       expect(result[0].id).toBe(users[2].id);
       expect(result[1].id).toBe(users[1].id);
       expect(result[2].id).toBe(users[0].id);

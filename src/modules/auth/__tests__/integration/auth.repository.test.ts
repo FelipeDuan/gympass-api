@@ -10,10 +10,11 @@ describe('AuthRepository (Integration)', () => {
   const authRepository = createAuthRepository(testPrisma);
 
   beforeEach(async () => {
-    // Limpeza adicional para garantir isolamento
-    await testPrisma.checkIn.deleteMany();
-    await testPrisma.gym.deleteMany();
-    await testPrisma.user.deleteMany();
+    await Promise.all([
+      testPrisma.checkIn.deleteMany(),
+      testPrisma.gym.deleteMany(),
+      testPrisma.user.deleteMany(),
+    ]);
   });
 
   describe('findByEmailWithPassword', () => {
